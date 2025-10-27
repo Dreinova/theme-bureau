@@ -1,8 +1,4 @@
-<?php
-if (!is_user_logged_in()) {
-    wp_redirect(wp_login_url());
-}
-get_header(); ?>
+<?php get_header(); ?>
 <div class="container">
 </div>
 

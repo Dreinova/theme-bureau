@@ -1,3 +1,10 @@
+<?php
+// Redirigir si el usuario no ha iniciado sesión
+if ( !is_user_logged_in() ) {
+    // Redirige a la página de login de WordPress
+    auth_redirect();
+}
+?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 
@@ -24,17 +31,22 @@
       }
       ?>
     </div>
-    <nav class="main-navigation">
-    <?php
-    wp_nav_menu(
+   <nav class="main-navigation">
+  <button class="menu-toggle" aria-label="Abrir menú">
+    <span class="hamburger"></span>
+  </button>
+
+  <?php
+  wp_nav_menu(
     array(
-    'menu' => 'primary',
-    'container' => '',
-    'location' => 'primary',
-    'items_wrap' => '<ul id="" class="menu">%3$s</ul>'
+      'menu' => 'primary',
+      'container' => '',
+      'theme_location' => 'primary',
+      'items_wrap' => '<ul class="menu">%3$s</ul>'
     )
-    );
-    ?>
-    </nav>
+  );
+  ?>
+</nav>
+
   </div>
 </header>

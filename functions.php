@@ -84,6 +84,17 @@ if (isset($_GET['field']) || isset($_GET['oby'])) {
     acfFilt("banners-bureau");
     acfFilt("porque-bureau");
     acfFilt("eventos-bureau");
+    acfFilt("venues-bureau");
+    acfFilt("equipo-bureau");
+    acfFilt("asesoria-bureau");
+    acfFilt("hotel-bureau");
+    acfFilt("noticias-bureau");
+    acfFilt("beneficio-bureau");
+    acfFilt("alianza-bureau");
+    acfFilt("acciones-bureau");
+    acfFilt("videos-bureau");
+    acfFilt("preguntas-bureau");
+    acfFilt("casos-bureau");
 }
 
 function custom_meta_query()
@@ -186,13 +197,6 @@ function custom_seo_meta_tags() {
 }
 add_action('wp_head', 'custom_seo_meta_tags');
 
-function custom_canonical_tag() {
-    global $wp;
-    $canonical_url = home_url(add_query_arg([], $wp->request));
-    echo '<link rel="canonical" href="' . esc_url($canonical_url) . '">' . "\n";
-}
-add_action('wp_head', 'custom_canonical_tag');
-
 // En functions.php
 function custom_sitemap_rewrite() {
     add_rewrite_rule('^sitemap\.xml$', 'index.php?sitemap=1', 'top');
@@ -250,3 +254,89 @@ function custom_robots_txt($output, $public) {
     return $output;
 }
 add_filter('robots_txt', 'custom_robots_txt', 10, 2);
+add_action('init', 'procesar_formulario_bureau');
+function procesar_formulario_bureau() {
+    if (isset($_POST['enviar_formulario'])) {
+        // Sanitización de datos
+        $empresa = sanitize_text_field($_POST['empresa']);
+        $telefono = sanitize_text_field($_POST['telefono']);
+        $email = sanitize_email($_POST['email']);
+        $ciudad = sanitize_text_field($_POST['ciudad']);
+        $fecha = sanitize_text_field($_POST['fecha']);
+        $personas = sanitize_text_field($_POST['personas']);
+        $servicios = sanitize_textarea_field($_POST['servicios']);
+        $autorizacion = isset($_POST['autorizacion']) ? 'Sí' : 'No';
+        // 1️⃣ Enviar datos a tu webhook de Make
+        $webhook_url = 'https://hook.us2.make.com/o92e5bnno2wb3xdt99bksfkdy4ccvoc0'; // <-- reemplaza por el tuyo
+        $body = array(
+            'empresa' => $empresa,
+            'telefono' => $telefono,
+            'email' => $email,
+            'ciudad' => $ciudad,
+            'fecha' => $fecha,
+            'personas' => $personas,
+            'servicios' => $servicios,
+            'autorizacion' => $autorizacion
+        );
+
+        $response = wp_remote_post($webhook_url, array(
+            'method'      => 'POST',
+            'headers'     => array('Content-Type' => 'application/json; charset=utf-8'),
+            'body'        => wp_json_encode($body),
+            'data_format' => 'body',
+        ));
+
+        // Opcional: verificar respuesta del webhook
+        if (is_wp_error($response)) {
+            error_log('Error al enviar a Make: ' . $response->get_error_message());
+        }
+
+        // 2️⃣ Crear un nuevo post del tipo "contenido"
+        $post_id = wp_insert_post(array(
+            'post_title'   => 'Solicitud de ' . $empresa,
+            'post_type'    => 'asesoria-bureau',
+            'post_status'  => 'publish',
+        ));
+
+        if ($post_id) {
+            // 3️⃣ Guardar campos ACF
+            update_field('empresa', $empresa, $post_id);
+            update_field('telefono', $telefono, $post_id);
+            update_field('email', $email, $post_id);
+            update_field('ciudad', $ciudad, $post_id);
+            update_field('fecha', $fecha, $post_id);
+            update_field('personas', $personas, $post_id);
+            update_field('servicios', $servicios, $post_id);
+            update_field('autorizacion', $autorizacion, $post_id);
+        }
+
+        // 4️⃣ (Opcional) Enviar correo
+        $to = 'bureau.bogota@investinbogota.org';
+        $subject = 'Nueva solicitud desde el sitio web';
+        $message = "
+        Empresa: $empresa
+        Teléfono: $telefono
+        Email: $email
+        Ciudad: $ciudad
+        Fecha estimada: $fecha
+        Personal de registro: $personas
+        Servicios: $servicios
+        Autorización de datos: $autorizacion
+        ";
+        $headers = array('Content-Type: text/plain; charset=UTF-8');
+
+        wp_mail($to, $subject, $message, $headers);
+
+        // 5️⃣ Redirección o mensaje de confirmación
+        wp_redirect(add_query_arg('enviado', '1', $_SERVER['REQUEST_URI']));
+        exit;
+    }
+}
+
+// add_filter('wp_get_attachment_url', function($url) {
+//     return str_replace(
+//         home_url('/wp-content/uploads/'),
+//         '/wp-content/uploads/',
+//         $url
+//     );
+// });

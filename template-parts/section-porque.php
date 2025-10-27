@@ -14,7 +14,7 @@ $porque = new WP_Query($args);
   <div class="container">
     <?php if ($porque->have_posts()) : ?>
       <?php while ($porque->have_posts()) : $porque->the_post(); ?>
-        <article class="porque-item">
+        <article class="porque-item" data-aos="fade-right">
           <div class="porque-item__image">
             <?php if (has_post_thumbnail()) : ?>
               <img 
@@ -29,6 +29,10 @@ $porque = new WP_Query($args);
             <h4><?php the_title(); ?></h4>
             <div class="porque-item__text">
               <?php the_content(); ?>
+              <?php if(get_field("link_boton")){ ?>
+                <a href="<?= get_field("link_boton") ?>" class="btn-primary" style="margin-top:30px;">Saber más</a>
+              <?php } ?>
+
             </div>
           </div>
         </article>
