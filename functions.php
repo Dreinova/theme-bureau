@@ -197,35 +197,6 @@ function custom_seo_meta_tags() {
 }
 add_action('wp_head', 'custom_seo_meta_tags');
 
-// En functions.php
-function custom_sitemap_rewrite() {
-    add_rewrite_rule('^sitemap\.xml$', 'index.php?sitemap=1', 'top');
-}
-add_action('init', 'custom_sitemap_rewrite');
-
-function custom_sitemap_query_vars($vars) {
-    $vars[] = 'sitemap';
-    return $vars;
-}
-add_filter('query_vars', 'custom_sitemap_query_vars');
-
-function custom_sitemap_template() {
-    if (get_query_var('sitemap')) {
-        header('Content-Type: application/xml; charset=utf-8');
-        echo '<?xml version="1.0" encoding="UTF-8"?>';
-        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        $posts = get_posts(['post_type' => 'post', 'post_status' => 'publish', 'numberposts' => -1]);
-        foreach ($posts as $post) {
-            echo '<url>';
-            echo '<loc>' . get_permalink($post) . '</loc>';
-            echo '<lastmod>' . get_the_modified_date('c', $post) . '</lastmod>';
-            echo '</url>';
-        }
-        echo '</urlset>';
-        exit;
-    }
-}
-add_action('template_redirect', 'custom_sitemap_template');
 
 function auto_alt_images($content) {
     return preg_replace_callback(
@@ -340,6 +311,60 @@ function procesar_formulario_bureau() {
 //     );
 // });
 
-add_filter('use_block_editor_for_post', '__return_false');
+// Desactiva el sitemap nativo de WordPress
+add_filter('wp_sitemaps_enabled', '__return_false');
 
-define('DISALLOW_FILE_EDIT', true);
+// Permite usar la query var "sitemap"
+add_action('init', function() {
+    add_rewrite_rule('sitemap\.xml$', 'index.php?sitemap=1', 'top');
+    add_rewrite_tag('%sitemap%', '([0-9]+)');
+});
+
+// Genera el sitemap personalizado
+add_action('template_redirect', function() {
+    if (get_query_var('sitemap')) {
+        header('Content-Type: application/xml; charset=utf-8');
+
+        // Define los tipos de contenido a incluir
+        $post_types = ['post', 'page', 'noticias-bureau']; // <-- agrega los que necesites
+
+        $posts = get_posts([
+            'post_type'      => $post_types,
+            'post_status'    => 'publish',
+            'numberposts'    => -1,
+            'orderby'        => 'modified',
+            'order'          => 'DESC',
+        ]);
+
+        echo '<?xml version="1.0" encoding="UTF-8"?>';
+        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
+        // URLs dinámicas
+        foreach ($posts as $post) {
+            echo '<url>';
+            echo '<loc>' . esc_url(get_permalink($post)) . '</loc>';
+            echo '<lastmod>' . get_the_modified_date('c', $post) . '</lastmod>';
+            echo '</url>';
+        }
+
+        // URLs fijas adicionales
+        $extra_urls = [
+            home_url('/acerca-de-bureau-de-convenciones/'),
+            home_url('/infraestructura-de-bogota/'),
+            home_url('/bogota-sede-de-grandes-eventos/'),
+            home_url('/haz-tu-evento-en-bogota/'),
+            home_url('/noticias/'),
+            home_url('/obten-asesoria-de-expertos/'),
+        ];
+
+        foreach ($extra_urls as $url) {
+            echo '<url>';
+            echo '<loc>' . esc_url($url) . '</loc>';
+            echo '<lastmod>' . date('c') . '</lastmod>';
+            echo '</url>';
+        }
+
+        echo '</urlset>';
+        exit;
+    }
+});
