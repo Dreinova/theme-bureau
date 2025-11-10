@@ -2,11 +2,7 @@
   <div class="container">
     <span class="masinfo-title">Solicita</span>
     <span class="masinfo-subtitle">más información 
-    <?php if (get_post_field('post_name', get_post()) == "haz-tu-evento-en-bogota") { ?>
       <a href="/obten-asesoria-de-expertos/" class="btn">Haz tu evento en Bogotá</a>
-    <?php } else { ?>
-      <a href="/haz-tu-evento-en-bogota/" class="btn">Haz tu evento en Bogotá</a>
-    <?php } ?>
     
     </span>
   </div>

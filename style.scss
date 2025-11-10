@@ -27,6 +27,14 @@ a {
   color: inherit;
   text-decoration: none;
 }
+p {
+  a {
+    text-decoration: underline;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
 
 #adminmenu {
   width: 200px;
@@ -403,21 +411,24 @@ a {
 .home {
   .description {
     flex-direction: column;
-    background-color: #e54424;
+    background-color: #ffcc2e;
     padding: 50px 20px;
     width: 100%;
     margin: 0;
     max-width: 100%;
     p {
       width: 100%;
-      max-width: 1200px;
-      font-size: 1.8rem;
+      max-width: 700px;
+      font-size: 1.5rem;
       margin-bottom: 0.5rem;
-      color: #fff;
+      color: #000;
       font-weight: bold;
       @media screen and (max-width: 768px) {
         font-size: 1.2rem;
       }
+    }
+    a.btn-secondary {
+      font-size: 18px;
     }
   }
   .grid-eventos {
@@ -649,8 +660,10 @@ a {
 }
 
 .section-porque {
-  padding: 20px 30px;
+  background-color: #000;
+  padding: 20px 0 0;
   h3 {
+    color: #fff;
     font-weight: 700;
     font-size: 32px;
     text-align: center;
@@ -659,20 +672,51 @@ a {
 }
 
 .porque-item {
-  display: flex;
-  align-items: center;
-  gap: 119px;
-  margin-bottom: 15px;
-  justify-content: center;
-  flex-direction: row-reverse;
-  &:nth-of-type(2n) {
-    flex-direction: row;
-  }
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    gap: 0;
-    &:nth-of-type(2n) {
+  background-color: #000;
+  .container {
+    display: flex;
+    align-items: center;
+    gap: 119px;
+    justify-content: center;
+    flex-direction: row-reverse;
+    padding: 30px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+
+    @media screen and (max-width: 768px) {
+      padding: 20px;
       flex-direction: column;
+      gap: 0;
+    }
+    .porque-item__content h4 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 45px;
+      color: #ffcc2e;
+    }
+    .porque-item__text {
+      max-width: 500px;
+      line-height: 25px;
+      font-size: 18px;
+      color: #fff;
+    }
+  }
+  &:nth-of-type(2n) {
+    background-color: #fff;
+    .container {
+      flex-direction: row;
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
+      .porque-item__content h4 {
+        color: #7c2d12;
+      }
+      .porque-item__text {
+        max-width: 500px;
+        line-height: 1.5;
+        color: #000;
+      }
     }
   }
 }
@@ -686,12 +730,6 @@ a {
     width: 80vw;
     height: 80vw;
   }
-}
-
-.porque-item__content h4 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: #7c2d12; /* ejemplo color vino */
 }
 
 .porque-item__text {
@@ -768,6 +806,9 @@ a {
         font-size: 14px;
         line-height: 22px;
         margin-bottom: 10px;
+        strong {
+          color: #ffcc2e;
+        }
       }
     }
     p {
@@ -1172,18 +1213,107 @@ a {
       }
     }
   }
+  .absolute-form {
+    img {
+      position: absolute;
+      bottom: -100px;
+      left: 0;
+      width: 100%;
+      height: 220px;
+      z-index: 100;
+    }
+  }
   .section-team {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 4rem 1rem 0;
-    background: #fff;
+    .container {
+      position: relative;
+      height: 450px;
+      display: flex;
+      padding: 0 20px;
+      justify-content: center;
+      align-items: flex-end;
+      @media screen and (max-width: 768px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        height: auto;
+      }
+    }
+
+    .team-item {
+      position: absolute;
+      bottom: 0;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      &:hover {
+        bottom: 21px;
+        .team-item__content {
+          opacity: 1;
+          bottom: 120%;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        position: relative;
+        bottom: auto;
+        transform: none !important;
+        z-index: 1 !important;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .team-item__image img {
+      width: 240px;
+      height: auto;
+      border-radius: 8px;
+
+      @media screen and (max-width: 1200px) {
+        max-width: 170px;
+        width: 100%;
+      }
+      @media screen and (max-width: 768px) {
+        max-width: 130px;
+        width: 100%;
+      }
+    }
+
+    .team-item__content {
+      position: absolute;
+      bottom: 60%;
+      left: 100%;
+      transform: translateX(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      min-width: 320px;
+
+      @media screen and (max-width: 768px) {
+        position: static;
+        transform: none;
+        opacity: 1;
+        pointer-events: all;
+        text-align: center;
+        margin-top: 0.5rem;
+        background: transparent;
+        min-width: auto;
+      }
+
+      h4 {
+        margin: 0.3rem 0;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+    }
     p {
       text-align: center;
       font-weight: 400;
       font-size: 22px;
       max-width: 630px;
       width: 100%;
-      margin: 80px auto 30px;
+      margin: 30px auto;
+      z-index: 100;
+      padding: 0 20px;
+      position: relative;
       &:last-of-type {
         margin: 0 auto 30px;
       }
@@ -1193,11 +1323,34 @@ a {
     }
   }
 
+  .absolute-form {
+    img {
+      position: absolute;
+      bottom: -100px;
+      left: 0;
+      width: 100%;
+      height: 220px;
+      z-index: 100;
+
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+  .section-team {
+    padding-bottom: 50px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
   .section-team h3 {
     font-weight: 700;
     font-size: 40px;
     line-height: 40px;
     margin-bottom: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto 2rem;
+    padding: 0 20px;
   }
 
   .section-team h3 strong {
@@ -1207,51 +1360,6 @@ a {
     font-size: 64px;
   }
 
-  .section-team .container {
-    position: relative;
-    height: 450px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-  }
-
-  .team-item {
-    position: absolute;
-    bottom: 0;
-    transition: all 0.4s ease;
-    cursor: pointer;
-  }
-
-  .team-item__image img {
-    width: 180px;
-    height: auto;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-  }
-
-  .team-item:hover {
-    bottom: 21px;
-  }
-
-  /* Tooltip */
-  .team-item__content {
-    position: absolute;
-    bottom: 60%;
-    left: 100%;
-    transform: translateX(-50%);
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    min-width: 320px;
-    text-align: left;
-  }
-
-  .team-item:hover .team-item__content {
-    opacity: 1;
-    bottom: 120%;
-  }
   /* ====== ESTILOS GENERALES ====== */
   .section-enfoque {
     font-family: "Poppins", sans-serif;
@@ -1409,8 +1517,11 @@ a {
   h3 {
     font-weight: 700;
     font-size: 40px;
-    margin-bottom: 30px;
+
     text-align: center;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    line-height: 33px;
   }
 
   .container {
@@ -1532,7 +1643,6 @@ a {
 }
 
 .btn-secondary {
-  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1625,6 +1735,13 @@ a {
     margin: 0 auto;
     height: 100%;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .section-videos {
+      margin: 0;
+      width: 50%;
+    }
   }
 }
 
@@ -1634,32 +1751,7 @@ a {
   height: 100%;
 }
 
-.destacado video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  z-index: 1;
-}
-
-/* Overlay semitransparente para mejorar legibilidad */
-.destacado::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.4); /* tono claro tipo el de la imagen */
-  z-index: 2;
-}
-
 .destacado .text {
-  position: absolute;
-  right: 0%;
-  bottom: 20%;
   z-index: 3;
   color: #000;
   max-width: 450px;
@@ -2210,7 +2302,7 @@ a {
     align-items: center;
     img {
       width: 180px;
-      height: 180px;
+      height: 80px;
       object-fit: contain;
       margin-bottom: 15px;
     }
@@ -2583,4 +2675,53 @@ a {
 
 .filtros-fecha input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
+}
+
+.videocorp {
+  max-width: 1200px;
+  width: 90%;
+  position: relative;
+  margin: 0 auto;
+  .videosplay {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    position: absolute;
+    background: #f9b000;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #000;
+    }
+  }
+  video {
+    width: 100%;
+  }
+}
+.teamsection {
+  position: relative;
+}
+
+.page-haz-tu-evento-en-bogota {
+  .description {
+    font-weight: 700;
+    font-size: 40px;
+    text-align: center;
+    max-width: 800px;
+    margin: 30px auto;
+    line-height: 33px;
+    p {
+      width: 100%;
+    }
+  }
 }

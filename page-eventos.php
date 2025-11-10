@@ -14,7 +14,7 @@ get_header(); ?>
   </main>
   <div class="testimonios">
     <div class="container">
-      <h2>Testimonios</h2>
+      <h2>Casos <strong>de éxito</strong></h2>
       <?php get_template_part( 'template-parts/section', 'videos', array( 'category' => 'casos-de-exito' )  ); ?>
     </div>
   </div>

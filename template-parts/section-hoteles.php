@@ -10,7 +10,7 @@ $hoteles = new WP_Query($argsHoteles);
 ?>
 
 <section class="section-hoteles">
-  <h3>Hoteles perfectos para tu evento</h3>
+  <h3>Entre los grandes beneficios de realizar tu evento con el Bureau es que puedes encontrar una amplia gama de hoteles y venues con beneficios exclusivos.</h3>
   <div class="container">
     <?php if ($hoteles->have_posts()) : ?>
       <?php 
@@ -73,7 +73,6 @@ $hoteles = new WP_Query($argsHoteles);
                 </div>
 
                 <h4><?= esc_html($hotel['titulo']); ?></h4>
-                <?= wp_kses_post($hotel['contenido']); ?>
 
                 <div class="flex">
                   <?php if ($hotel['ubicacion']) : ?>

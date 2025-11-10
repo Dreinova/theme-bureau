@@ -30,6 +30,13 @@ a {
   text-decoration: none;
 }
 
+p a {
+  text-decoration: underline;
+}
+p a:hover {
+  opacity: 0.5;
+}
+
 #adminmenu {
   width: 200px;
 }
@@ -371,7 +378,7 @@ a {
 
 .home .description {
   flex-direction: column;
-  background-color: #e54424;
+  background-color: #ffcc2e;
   padding: 50px 20px;
   width: 100%;
   margin: 0;
@@ -379,16 +386,19 @@ a {
 }
 .home .description p {
   width: 100%;
-  max-width: 1200px;
-  font-size: 1.8rem;
+  max-width: 700px;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  color: #fff;
+  color: #000;
   font-weight: bold;
 }
 @media screen and (max-width: 768px) {
   .home .description p {
     font-size: 1.2rem;
   }
+}
+.home .description a.btn-secondary {
+  font-size: 18px;
 }
 .home .grid-eventos {
   display: grid;
@@ -629,9 +639,11 @@ a {
 }
 
 .section-porque {
-  padding: 20px 30px;
+  background-color: #000;
+  padding: 20px 0 0;
 }
 .section-porque h3 {
+  color: #fff;
   font-weight: 700;
   font-size: 32px;
   text-align: center;
@@ -639,24 +651,56 @@ a {
 }
 
 .porque-item {
+  background-color: #000;
+}
+.porque-item .container {
   display: flex;
   align-items: center;
   gap: 119px;
-  margin-bottom: 15px;
   justify-content: center;
   flex-direction: row-reverse;
-}
-.porque-item:nth-of-type(2n) {
-  flex-direction: row;
+  padding: 30px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 }
 @media screen and (max-width: 768px) {
-  .porque-item {
+  .porque-item .container {
+    padding: 20px;
     flex-direction: column;
     gap: 0;
   }
-  .porque-item:nth-of-type(2n) {
+}
+.porque-item .container .porque-item__content h4 {
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 45px;
+  color: #ffcc2e;
+}
+.porque-item .container .porque-item__text {
+  max-width: 500px;
+  line-height: 25px;
+  font-size: 18px;
+  color: #fff;
+}
+.porque-item:nth-of-type(2n) {
+  background-color: #fff;
+}
+.porque-item:nth-of-type(2n) .container {
+  flex-direction: row;
+}
+@media screen and (max-width: 768px) {
+  .porque-item:nth-of-type(2n) .container {
     flex-direction: column;
   }
+}
+.porque-item:nth-of-type(2n) .container .porque-item__content h4 {
+  color: #7c2d12;
+}
+.porque-item:nth-of-type(2n) .container .porque-item__text {
+  max-width: 500px;
+  line-height: 1.5;
+  color: #000;
 }
 
 .porque-item__image img {
@@ -671,12 +715,6 @@ a {
     width: 80vw;
     height: 80vw;
   }
-}
-
-.porque-item__content h4 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: #7c2d12; /* ejemplo color vino */
 }
 
 .porque-item__text {
@@ -769,6 +807,9 @@ a {
   font-size: 14px;
   line-height: 22px;
   margin-bottom: 10px;
+}
+.distrito-ferial .content ul li strong {
+  color: #ffcc2e;
 }
 .distrito-ferial .content p {
   font-size: 14px;
@@ -1190,7 +1231,6 @@ a {
 }
 
 .page-acerca-de-bureau-de-convenciones {
-  /* Tooltip */
   /* ====== ESTILOS GENERALES ====== */
   /* ====== BLOQUE ROJO SUPERIOR ====== */
 }
@@ -1202,11 +1242,96 @@ a {
     width: 100%;
   }
 }
-.page-acerca-de-bureau-de-convenciones .section-team {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 1rem 0;
-  background: #fff;
+.page-acerca-de-bureau-de-convenciones .absolute-form img {
+  position: absolute;
+  bottom: -100px;
+  left: 0;
+  width: 100%;
+  height: 220px;
+  z-index: 100;
+}
+.page-acerca-de-bureau-de-convenciones .section-team .container {
+  position: relative;
+  height: 450px;
+  display: flex;
+  padding: 0 20px;
+  justify-content: center;
+  align-items: flex-end;
+}
+@media screen and (max-width: 768px) {
+  .page-acerca-de-bureau-de-convenciones .section-team .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    height: auto;
+  }
+}
+.page-acerca-de-bureau-de-convenciones .section-team .team-item {
+  position: absolute;
+  bottom: 0;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+.page-acerca-de-bureau-de-convenciones .section-team .team-item:hover {
+  bottom: 21px;
+}
+.page-acerca-de-bureau-de-convenciones .section-team .team-item:hover .team-item__content {
+  opacity: 1;
+  bottom: 120%;
+}
+@media screen and (max-width: 768px) {
+  .page-acerca-de-bureau-de-convenciones .section-team .team-item {
+    position: relative;
+    bottom: auto;
+    transform: none !important;
+    z-index: 1 !important;
+    width: 100%;
+    text-align: center;
+  }
+}
+.page-acerca-de-bureau-de-convenciones .section-team .team-item__image img {
+  width: 240px;
+  height: auto;
+  border-radius: 8px;
+}
+@media screen and (max-width: 1200px) {
+  .page-acerca-de-bureau-de-convenciones .section-team .team-item__image img {
+    max-width: 170px;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .page-acerca-de-bureau-de-convenciones .section-team .team-item__image img {
+    max-width: 130px;
+    width: 100%;
+  }
+}
+.page-acerca-de-bureau-de-convenciones .section-team .team-item__content {
+  position: absolute;
+  bottom: 60%;
+  left: 100%;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  min-width: 320px;
+}
+@media screen and (max-width: 768px) {
+  .page-acerca-de-bureau-de-convenciones .section-team .team-item__content {
+    position: static;
+    transform: none;
+    opacity: 1;
+    pointer-events: all;
+    text-align: center;
+    margin-top: 0.5rem;
+    background: transparent;
+    min-width: auto;
+  }
+}
+.page-acerca-de-bureau-de-convenciones .section-team .team-item__content h4 {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 .page-acerca-de-bureau-de-convenciones .section-team p {
   text-align: center;
@@ -1214,7 +1339,10 @@ a {
   font-size: 22px;
   max-width: 630px;
   width: 100%;
-  margin: 80px auto 30px;
+  margin: 30px auto;
+  z-index: 100;
+  padding: 0 20px;
+  position: relative;
 }
 .page-acerca-de-bureau-de-convenciones .section-team p:last-of-type {
   margin: 0 auto 30px;
@@ -1224,56 +1352,38 @@ a {
     font-size: 20px;
   }
 }
+.page-acerca-de-bureau-de-convenciones .absolute-form img {
+  position: absolute;
+  bottom: -100px;
+  left: 0;
+  width: 100%;
+  height: 220px;
+  z-index: 100;
+}
+@media screen and (max-width: 768px) {
+  .page-acerca-de-bureau-de-convenciones .absolute-form img {
+    display: none;
+  }
+}
+.page-acerca-de-bureau-de-convenciones .section-team {
+  padding-bottom: 50px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
 .page-acerca-de-bureau-de-convenciones .section-team h3 {
   font-weight: 700;
   font-size: 40px;
   line-height: 40px;
   margin-bottom: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto 2rem;
+  padding: 0 20px;
 }
 .page-acerca-de-bureau-de-convenciones .section-team h3 strong {
   color: #f24e1e;
   display: block;
   font-weight: 700;
   font-size: 64px;
-}
-.page-acerca-de-bureau-de-convenciones .section-team .container {
-  position: relative;
-  height: 450px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-.page-acerca-de-bureau-de-convenciones .team-item {
-  position: absolute;
-  bottom: 0;
-  transition: all 0.4s ease;
-  cursor: pointer;
-}
-.page-acerca-de-bureau-de-convenciones .team-item__image img {
-  width: 180px;
-  height: auto;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-.page-acerca-de-bureau-de-convenciones .team-item:hover {
-  bottom: 21px;
-}
-.page-acerca-de-bureau-de-convenciones .team-item__content {
-  position: absolute;
-  bottom: 60%;
-  left: 100%;
-  transform: translateX(-50%);
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  min-width: 320px;
-  text-align: left;
-}
-.page-acerca-de-bureau-de-convenciones .team-item:hover .team-item__content {
-  opacity: 1;
-  bottom: 120%;
 }
 .page-acerca-de-bureau-de-convenciones .section-enfoque {
   font-family: "Poppins", sans-serif;
@@ -1425,8 +1535,10 @@ a {
 .section-hoteles h3 {
   font-weight: 700;
   font-size: 40px;
-  margin-bottom: 30px;
   text-align: center;
+  max-width: 800px;
+  margin: 0 auto 30px;
+  line-height: 33px;
 }
 .section-hoteles .container {
   display: flex;
@@ -1534,7 +1646,6 @@ a {
 }
 
 .btn-secondary {
-  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1629,6 +1740,13 @@ a {
   margin: 0 auto;
   height: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.destacado .container .section-videos {
+  margin: 0;
+  width: 50%;
 }
 
 .destacado .videobg {
@@ -1637,33 +1755,7 @@ a {
   height: 100%;
 }
 
-.destacado video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  -o-object-fit: cover;
-     object-fit: cover;
-  z-index: 1;
-}
-
-/* Overlay semitransparente para mejorar legibilidad */
-.destacado::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.4); /* tono claro tipo el de la imagen */
-  z-index: 2;
-}
-
 .destacado .text {
-  position: absolute;
-  right: 0%;
-  bottom: 20%;
   z-index: 3;
   color: #000;
   max-width: 450px;
@@ -2217,7 +2309,7 @@ a {
 }
 .alianzas .alianza img {
   width: 180px;
-  height: 180px;
+  height: 80px;
   -o-object-fit: contain;
      object-fit: contain;
   margin-bottom: 15px;
@@ -2607,4 +2699,50 @@ a {
 
 .filtros-fecha input[type=date]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
+}
+
+.videocorp {
+  max-width: 1200px;
+  width: 90%;
+  position: relative;
+  margin: 0 auto;
+}
+.videocorp .videosplay {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  background: #f9b000;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: background 0.3s ease;
+}
+.videocorp .videosplay:hover {
+  background: #000;
+}
+.videocorp video {
+  width: 100%;
+}
+
+.teamsection {
+  position: relative;
+}
+
+.page-haz-tu-evento-en-bogota .description {
+  font-weight: 700;
+  font-size: 40px;
+  text-align: center;
+  max-width: 800px;
+  margin: 30px auto;
+  line-height: 33px;
+}
+.page-haz-tu-evento-en-bogota .description p {
+  width: 100%;
 }/*# sourceMappingURL=style.css.map */

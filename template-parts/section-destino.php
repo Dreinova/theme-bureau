@@ -41,7 +41,7 @@ $estadisticas_json = get_field('estadisticas_json', $home_id);
 
     <?php if ($boton_texto && $boton_enlace): ?>
       <div class="cta">
-        <a href="<?php echo esc_url($boton_enlace); ?>" class="btn-primary">
+        <a target="_blank" href="<?php echo esc_url($boton_enlace); ?>" class="btn-primary">
           <?php echo esc_html($boton_texto); ?>
         </a>
       </div>

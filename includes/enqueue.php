@@ -23,7 +23,7 @@ function gamedugg_load_scripts() {
     // === CSS externo (AOS) ===
     wp_enqueue_style(
         'aos-css',
-        'https://unpkg.com/aos@2.3.1/dist/aos.css',
+        get_template_directory_uri() . '/css/aos.css',
         array(),
         '2.3.1'
     );
@@ -31,7 +31,7 @@ function gamedugg_load_scripts() {
     // === JS externo (AOS) ===
     wp_enqueue_script(
         'aos-js',
-        'https://unpkg.com/aos@2.3.1/dist/aos.js',
+        get_template_directory_uri() . '/js/aos.js',
         array(), // sin dependencias
         '2.3.1',
         true // cargar al final del body

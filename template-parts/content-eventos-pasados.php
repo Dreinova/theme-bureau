@@ -1,20 +1,22 @@
 <?php
+// ✅ Fecha actual en formato Ymd (ejemplo: 20251030)
 $hoy = date('Ymd');
 
+// ✅ Consulta eventos con fecha anterior a hoy
 $args = array(
-    'post_type' => 'eventos-bureau',
+    'post_type'      => 'eventos-bureau',
     'posts_per_page' => -1,
-    'meta_key' => 'fecha_final',
-    'orderby' => 'meta_value',
-    'order' => 'DESC',
-    'meta_query' => array(
+    'meta_key'       => 'fecha_inicial',
+    'meta_query'     => array(
         array(
-            'key' => 'fecha_final',
-            'value' => $hoy,
+            'key'     => 'fecha_inicial',
+            'value'   => $hoy,
             'compare' => '<',
-            'type' => 'NUMERIC'
-        )
-    )
+            'type'    => 'NUMERIC'
+        ),
+    ),
+    'orderby'        => 'meta_value_num',
+    'order'          => 'DESC',
 );
 
 $eventos = new WP_Query($args);
@@ -25,11 +27,8 @@ if ($eventos->have_posts()) :
     while ($eventos->have_posts()) : $eventos->the_post();
         $fecha_final = get_field('fecha_inicial');
         if ($fecha_final) {
-            $timestamp = strtotime(str_replace('/', '-', $fecha_final));
-            if ($timestamp) {
-                $anio = date('Y', $timestamp);
-                $anios[$anio] = true;
-            }
+            $anio = substr($fecha_final, 0, 4); // ✅ directo del formato Ymd
+            $anios[$anio] = true;
         }
     endwhile;
     wp_reset_postdata();
@@ -40,7 +39,7 @@ if ($eventos->have_posts()) :
 
     <div class="tabs-anios">
         <?php foreach ($anios as $anio => $_) : ?>
-            <button data-anio="<?= esc_attr($anio) ?>" class="<?= $anio == '2024' ? 'active' : '' ?>">
+            <button data-anio="<?= esc_attr($anio) ?>" class="<?= $anio == date('Y') ? 'active' : '' ?>">
                 <?= esc_html($anio) ?>
             </button>
         <?php endforeach; ?>
@@ -48,20 +47,18 @@ if ($eventos->have_posts()) :
 
     <div class="listado-eventos">
         <?php
+        // Repetimos la consulta para listar los eventos
         $eventos = new WP_Query($args);
         while ($eventos->have_posts()) : $eventos->the_post();
             $fecha_inicial = get_field('fecha_inicial');
             $fecha_final   = get_field('fecha_final');
             $img           = get_the_post_thumbnail_url(get_the_ID(), 'medium');
-
-            $anio_evento = '';
-            if ($fecha_inicial) {
-                $timestamp = strtotime(str_replace('/', '-', $fecha_inicial));
-                if ($timestamp) $anio_evento = date('Y', $timestamp);
-            }
+            $anio_evento   = substr($fecha_inicial, 0, 4); // ✅ directo del formato Ymd
         ?>
             <article class="evento-pasado" data-anio="<?= esc_attr($anio_evento) ?>">
-                <img loading="lazy" src="<?= esc_url($img) ?>" alt="<?php the_title(); ?>">
+                <?php if ($img) : ?>
+                    <img loading="lazy" src="<?= esc_url($img) ?>" alt="<?php the_title(); ?>">
+                <?php endif; ?>
                 <div class="texto">
                     <h3><?php the_title(); ?></h3>
                     <p><?php the_excerpt(); ?></p>

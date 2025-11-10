@@ -1,20 +1,20 @@
 <?php
-$hoy = date('Ymd');
+$hoy = date('Ymd'); // ✅ Fecha actual en formato Ymd (ej: 20251030)
 
 $args = array(
-    'post_type' => 'eventos-bureau',
+    'post_type'      => 'eventos-bureau',
     'posts_per_page' => 3,
-    'meta_key' => 'fecha_inicial',
-    'orderby' => 'meta_value',
-    'order' => 'ASC',
-    'meta_query' => array(
+    'meta_key'       => 'fecha_inicial',
+    'orderby'        => 'meta_value_num', // ✅ usar meta_value_num para Ymd
+    'order'          => 'ASC',
+    'meta_query'     => array(
         array(
-            'key' => 'fecha_inicial',
-            'value' => "20251020",
+            'key'     => 'fecha_inicial',
+            'value'   => $hoy, // ✅ usa fecha actual, no fija
             'compare' => '>=',
-            'type' => 'NUMERIC'
-        )
-    )
+            'type'    => 'NUMERIC',
+        ),
+    ),
 );
 
 $eventos = new WP_Query($args);
@@ -24,9 +24,10 @@ if ($eventos->have_posts()) :
 <section class="eventos-proximos">
     <div class="text">
         <h2><strong>Eventos</strong> próximos en Bogotá</h2>
-        <p>La agenda de eventos del Bureau está en constante movimiento, conectando   A Bogotá con el mundo. Desde congresos vibrantes hasta encuentros de talla internacional, cada evento es una puerta abierta al turismo MICE y a la experiencia única de nuestra ciudad.</p>
-        <a href="/bogota-sede-de-grandes-eventos/" class="btn-primary">Ver toda la agenda de eventos</a>
+        <p>La agenda de eventos del Bureau está en constante movimiento, conectando a Bogotá con el mundo. Desde congresos vibrantes hasta encuentros de talla internacional, cada evento es una puerta abierta al turismo MICE y a la experiencia única de nuestra ciudad.</p>
+        <a href="/bogota-sede-de-grandes-eventos/" class="btn-primary">Conoce la agenda completa aquí</a>
     </div>
+
     <div class="grid-eventos">
         <?php while ($eventos->have_posts()) : $eventos->the_post(); ?>
             <?php
@@ -36,20 +37,35 @@ if ($eventos->have_posts()) :
             $img           = get_the_post_thumbnail_url(get_the_ID(), 'medium');
             ?>
             <article class="evento-card">
-                <img loading="lazy" src="<?= esc_url($img) ?>" alt="<?php the_title(); ?>">
+                <?php if ($img): ?>
+                    <img loading="lazy" src="<?= esc_url($img) ?>" alt="<?php the_title(); ?>">
+                <?php endif; ?>
+
                 <div class="evento-info">
-                    <p class="lugar"><img loading="lazy" src="/wp-content/uploads/2025/10/locationw.avif" alt="location"> <?= esc_html($lugar) ?></p>
+                    <?php if ($lugar): ?>
+                        <p class="lugar">
+                            <img loading="lazy" src="/wp-content/uploads/2025/10/locationw.avif" alt="location">
+                            <?= esc_html($lugar) ?>
+                        </p>
+                    <?php endif; ?>
+
                     <h3><?php the_title(); ?></h3>
+
                     <div class="fechas">
-                        <div class="inicial">
-                            <span><?= date_i18n('d', strtotime($fecha_inicial)) ?></span>
-                            <span><?= date_i18n('F', strtotime($fecha_inicial)) ?></span>
-                        </div>
-                        <span>-</span>
-                        <div class="final">
-                            <span><?= date_i18n('d', strtotime($fecha_final)) ?></span>
-                            <span><?= date_i18n('F', strtotime($fecha_final)) ?></span>
-                        </div>
+                        <?php if ($fecha_inicial): ?>
+                            <div class="inicial">
+                                <span><?= date_i18n('d', strtotime($fecha_inicial)) ?></span>
+                                <span><?= date_i18n('F', strtotime($fecha_inicial)) ?></span>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($fecha_final): ?>
+                            <span>-</span>
+                            <div class="final">
+                                <span><?= date_i18n('d', strtotime($fecha_final)) ?></span>
+                                <span><?= date_i18n('F', strtotime($fecha_final)) ?></span>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </article>

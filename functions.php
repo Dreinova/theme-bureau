@@ -332,11 +332,14 @@ function procesar_formulario_bureau() {
         exit;
     }
 }
-
 // add_filter('wp_get_attachment_url', function($url) {
 //     return str_replace(
 //         home_url('/wp-content/uploads/'),
-//         '/wp-content/uploads/',
+//         'https://media.bogotabureau.org/',
 //         $url
 //     );
 // });
+
+add_filter('use_block_editor_for_post', '__return_false');
+
+define('DISALLOW_FILE_EDIT', true);

@@ -9,8 +9,8 @@ get_header(); ?>
   <?php  get_template_part( 'template-parts/section', 'banner' ); ?>
   <div class="destacado">
     <div class="videobg">
-        <video src="<?= get_field("video_brochure") ?>" loop muted autoplay></video>
         <div class="container">
+          <?php get_template_part( 'template-parts/section', 'videos', array( 'category' => 'destacado-infraestructura' )  ); ?>
           <div class="text">
               <h4><?= get_field("frase_destacada") ?></h4>
               <a target="_blank" href="<?= get_field("brochure") ?>" class="btn-secondary"><?= get_field("texto_boton_brochure") ?></a>

@@ -11,5 +11,5 @@
       <a href="/obten-asesoria-de-expertos/" class="btn-secondary">Solicita asesoría gratuita</a>
     </div>
     <?php get_template_part( 'template-parts/section', 'eventosfrontpage' ); ?>
-
+<?php get_template_part( 'template-parts/content', 'alianzas' ); ?>
 <?php get_footer(); ?>

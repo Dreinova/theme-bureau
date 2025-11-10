@@ -40,8 +40,7 @@ get_header(); ?>
   </label>
 
   <p class="nota-legal">
-    Al enviar este formulario, autorizas a Bogota Convention Bureau a contactarte para propósitos relacionados con los servicios que requieras. 
-    Consulta nuestra <a href="https://es.investinbogota.org/aviso-legal/" target="_blank">política de tratamiento de datos personales</a>.
+    Al enviar este formulario, autorizas al Bureau de Convenciones de Bogotá a contactarte para propósitos relacionados con los servicios que requieras. Consulta <a href="https://es.investinbogota.org/aviso-legal/" target="_blank">nuestra política de tratamiento de datos personales.</a>
   </p>
 
   <button type="submit" name="enviar_formulario" class="btn-primary">Enviar</button>

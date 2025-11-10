@@ -5,7 +5,7 @@ $argsAlianzas = array(
 'menu_order' ); $Alianzas = new WP_Query($argsAlianzas);
 
 ?>
-  <h3 style="text-align: center;margin: 30px auto; font-size:25px;">Alianzas</h3>
+  <h3 style="text-align: center;margin: 30px auto; font-size:25px;">Aliados</h3>
 <div class="alianzas">
     <?php if ($Alianzas->have_posts()) : ?>
         <?php 
@@ -17,8 +17,6 @@ $argsAlianzas = array(
             <?php if ($imagen): ?>
              <img loading="lazy" class="evento-imagen" src="<?php echo esc_url($imagen); ?>" alt="<?php the_title(); ?>">
            <?php endif; ?>
-           <?php the_title(); ?>
-           <?php the_content(); ?>
         </div>
       <?php endwhile; ?>
       <?php wp_reset_postdata(); ?>
